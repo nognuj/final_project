@@ -28,8 +28,8 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
       
-#     - name: Build, tag, and push image to Amazon ECR
-#       run: |
-#         push command 1.
-# 		push command 2.
-#         push command 3.
+    - name: Build, tag, and push image to Amazon ECR
+      run: |
+        docker build -t crowdfunding-funding ./jungon
+        docker tag crowdfunding-funding:latest 997059781683.dkr.ecr.ap-northeast-2.amazonaws.com/crowdfunding-funding:latest
+        docker push 997059781683.dkr.ecr.ap-northeast-2.amazonaws.com/crowdfunding-funding:latest
