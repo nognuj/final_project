@@ -30,6 +30,6 @@ jobs:
       
     - name: Build, tag, and push image to Amazon ECR
       run: |
-        docker build -t crowdfunding-funding ./jungon
+        docker build -t crowdfunding-funding ./funding
         docker tag crowdfunding-funding:latest 997059781683.dkr.ecr.ap-northeast-2.amazonaws.com/crowdfunding-funding:latest
         docker push 997059781683.dkr.ecr.ap-northeast-2.amazonaws.com/crowdfunding-funding:latest
