@@ -24,11 +24,12 @@
 #    See the documentation for each action used below for the recommended IAM policies for this IAM user,
 #    and best practices on handling the access key credentials.
 
-name: Deploy to Amazon ECS
+name: funding Deploy to Amazon ECS
 
 on:
+  # 잠시 멈춤
   push:
-    branches: [ "main" ]
+    branches: [ master ]
 
 env:
   AWS_REGION: ap-northeast-2                   # set this to your preferred AWS region, e.g. us-west-1

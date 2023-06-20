@@ -1,11 +1,9 @@
-name: Deploy to ECR
+name: funding_both Deploy to ECR
 
 on:
+ 
   push:
-    branches: [ master ]
-  # task_def로 main.yaml은 사용하지 않음
-  # push:
-  #   branches: [ main ]
+    branches: [ main ]
 
 jobs:
 
@@ -32,6 +30,6 @@ jobs:
       
     - name: Build, tag, and push image to Amazon ECR
       run: |
-        docker build -t crowdfunding-funding ./funding
-        docker tag crowdfunding-funding:latest 997059781683.dkr.ecr.ap-northeast-2.amazonaws.com/crowdfunding-funding:latest
-        docker push 997059781683.dkr.ecr.ap-northeast-2.amazonaws.com/crowdfunding-funding:latest
+        docker build -t crowdfunding-funding ./funding_both
+        docker tag crowdfunding-funding:latest 997059781683.dkr.ecr.ap-northeast-2.amazonaws.com/funding_both:latest
+        docker push 997059781683.dkr.ecr.ap-northeast-2.amazonaws.com/funding_both:latest
