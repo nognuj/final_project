@@ -32,6 +32,6 @@ jobs:
       
     - name: Build, tag, and push image to Amazon ECR
       run: |
-        docker build -t funding_rw ./funding
+        docker build -t funding_rw ./funding_rw
         docker tag funding_rw:latest 997059781683.dkr.ecr.ap-northeast-2.amazonaws.com/funding_rw:latest
         docker push 997059781683.dkr.ecr.ap-northeast-2.amazonaws.com/funding_rw:latest
