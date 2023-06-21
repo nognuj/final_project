@@ -28,18 +28,18 @@ name: funding Deploy to Amazon ECS
 
 on:
   # 잠시 멈춤
-  push:
-    branches: [ master ]
   # push:
-  #   branches: [ main ]  
+  #   branches: [ master ]
+  push:
+    branches: [ main ]  
 
 env:
   AWS_REGION: ap-northeast-2                   # set this to your preferred AWS region, e.g. us-west-1
 
   ECR_REPOSITORY: crowdfunding-funding           # set this to your Amazon ECR repository name
-  ECS_SERVICE: funding-svc                 # set this to your Amazon ECS service name
-  ECS_CLUSTER: crowdcluster                 # set this to your Amazon ECS cluster name
-  ECS_TASK_DEFINITION: .aws/task_def_funding.json        # set this to the path to your Amazon ECS task definition
+  ECS_SERVICE: crowdfunding-funding-default                 # set this to your Amazon ECS service name
+  ECS_CLUSTER: cluster-crowdfunding                 # set this to your Amazon ECS cluster name
+  ECS_TASK_DEFINITION: .aws/funding_td.json        # set this to the path to your Amazon ECS task definition
                                                # file, e.g. .aws/task-definition.json
   CONTAINER_NAME: funding-ct           # set this to the name of the container in the
                                                # containerDefinitions section of your task definition
