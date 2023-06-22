@@ -30,7 +30,6 @@ on:
   # 잠시 멈춤
   # push:
   #   branches: [ master ]
-
   # push:
   #   branches: [ main ]  
   pull_request:
