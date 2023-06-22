@@ -2,7 +2,7 @@
 
 module.exports = async function (fastify, opts) {
   fastify.get('/', async function (request, reply) {
-    return { root: '/funding read write version4' }
+    return { root: '/funding read write ci/cd' }
   })
 
   fastify.post('/createDB', async function (request, reply) {
