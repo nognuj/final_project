@@ -32,7 +32,7 @@ on:
   #   branches: [ master ]
   # push:
   #   branches: [ main ]  
-  pull_request:
+  pull_request_target:
     branches: [ payment ]
 
 env:
