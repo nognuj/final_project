@@ -28,12 +28,12 @@ name: funding Deploy to Amazon ECS
 
 on:
   # 잠시 멈춤
-  # push:
-  #   branches: [ master ]
+  push:
+    branches: [ master ]
   # push:
   #   branches: [ main ]  
-  pull_request_target:
-    branches: [ funding ]
+  # pull_request_target:
+  #   branches: [ funding ]
 
 
 env:
