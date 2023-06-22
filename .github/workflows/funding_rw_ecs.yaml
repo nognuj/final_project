@@ -33,7 +33,7 @@ on:
   # push:
   #   branches: [ main ]  
   pull_request_target:
-    branches: [ funding_rw ]
+    branches: [ funding_rw ] 
     
 
 env:
