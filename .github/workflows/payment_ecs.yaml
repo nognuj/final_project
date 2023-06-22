@@ -30,10 +30,9 @@ on:
   # 잠시 멈춤
   # push:
   #   branches: [ master ]
-
   # push:
   #   branches: [ main ]  
-  pull_request:
+  pull_request_target:
     branches: [ payment ]
 
 env:
@@ -64,6 +63,7 @@ jobs:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
+        ref: ${{ github.event.pull_request.head.sha }}
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ env.AWS_REGION }}
