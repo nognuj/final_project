@@ -2,7 +2,7 @@
 
 module.exports = async function (fastify, opts) {
   fastify.get('/', async function (request, reply) {
-    return { root: '/funding read only ci/cd 잘 되고 있니? 안되고 있는 거 같은 한 커밋 늦게 올라와 이게 왜 이렇게 되는 건지 모르겠네?!?!?!?!?!?!?!?!?!??' }
+    return { root: '/funding read only ci/cd 이게 맞는 건지 모르겠다 도대체 이렇게 두번 !! 해야 되는 걸까?!' }
   })
 
   fastify.get('/get', async function (request, reply) {
