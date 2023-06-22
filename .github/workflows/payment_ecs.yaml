@@ -30,10 +30,10 @@ on:
   # 잠시 멈춤
   # push:
   #   branches: [ master ]
-  # push:
-  #   branches: [ main ]  
-  pull_request_target:
-    branches: [ payment ] 
+  push:
+    branches: [ payment ]  
+  # pull_request_target:
+  #   branches: [ payment ] 
 
 env:
   AWS_REGION: ap-northeast-2                   # set this to your preferred AWS region, e.g. us-west-1
