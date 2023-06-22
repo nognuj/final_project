@@ -33,7 +33,7 @@ on:
   # push:
   #   branches: [ main ]  
   pull_request_target:
-    branches: [ funding ]
+    branches: [ funding_rw ]
 
 env:
   AWS_REGION: ap-northeast-2                   # set this to your preferred AWS region, e.g. us-west-1
