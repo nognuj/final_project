@@ -2,7 +2,7 @@
 
 module.exports = async function (fastify, opts) {
   fastify.get('/', async function (request, reply) {
-    return { root: '/funding read only ci/cd' }
+    return { root: '/funding read only ci/cd testtesttest' }
   })
 
   fastify.get('/get', async function (request, reply) {
