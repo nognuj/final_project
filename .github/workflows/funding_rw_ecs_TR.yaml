@@ -24,30 +24,30 @@
 #    See the documentation for each action used below for the recommended IAM policies for this IAM user,
 #    and best practices on handling the access key credentials.
 
-name: payment Deploy to Amazon ECS
+name: funding_rw Deploy to Amazon ECS with TR
 
 on:
   # 잠시 멈춤
   push:
     branches: [ master ]
   # push:
-  #   branches: [ main ]  
+  #   branches: [ funding_rw ]  
   # pull_request_target:
-  #   branches: [ payment ]
+  #   branches: [ funding_rw ] 
+    
 
-env:
-  AWS_REGION: ap-northeast-2                   # set this to your preferred AWS region, e.g. us-west-1
+# env:
+#   AWS_REGION: ap-northeast-2                   # set this to your preferred AWS region, e.g. us-west-1
 
-  ECR_REPOSITORY: payment_ecr           # set this to your Amazon ECR repository name
-  ECS_SERVICE: crowdfunding-payment-svc                 # set this to your Amazon ECS service name
-  ECS_CLUSTER: cluster-crowdfunding                 # set this to your Amazon ECS cluster name
-  ECS_TASK_DEFINITION: .aws/payment_td.json        # set this to the path to your Amazon ECS task definition
-                                               # file, e.g. .aws/task-definition.json
-  CONTAINER_NAME: payment-ct           # set this to the name of the container in the
+#   ECR_REPOSITORY: repo이름           # set this to your Amazon ECR repository name
+#   ECS_SERVICE: 서비스 이름                 # set this to your Amazon ECS service name
+#   ECS_CLUSTER: 클러스터 이름                 # set this to your Amazon ECS cluster name
+#   ECS_TASK_DEFINITION: .aws/funding_rw_td.json        # set this to the path to your Amazon ECS task definition
+#                                                # file, e.g. .aws/task-definition.json
+#   CONTAINER_NAME: 컨테이너 이름           # set this to the name of the container in the
                                                # containerDefinitions section of your task definition
 
 permissions:
-  id-token: write
   contents: read
 
 jobs:
@@ -63,7 +63,6 @@ jobs:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
-        # ref: ${{ github.event.pull_request.head.sha }}
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ env.AWS_REGION }}
@@ -82,7 +81,7 @@ jobs:
         # push it to ECR so that it can
         # be deployed to ECS.
         echo " ---- $ECR_REGISTRY --- $ECR_REPOSITORY --- "
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./payment
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./funding_rw
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
