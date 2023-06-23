@@ -5,20 +5,20 @@ module.exports = async function (fastify, opts) {
     return { root: '/funding read only 가보자구~ 어디를?' }
   })
 
-  fastify.get('/get', async function (request, reply) {
+  // fastify.get('/get', async function (request, reply) {
 
-    // db connection
-    const connection = await fastify.mysql.getConnection()
+  //   // db connection
+  //   const connection = await fastify.mysql.getConnection()
 
-    // 일단 추출
-    const [id, name, email] = await connection.query(
-      `SELECT * FROM test.test01`
-    )
-    connection.release()
+  //   // 일단 추출
+  //   const [id, name, email] = await connection.query(
+  //     `SELECT * FROM test.test01`
+  //   )
+  //   connection.release()
   
-    // Set the response status code
-    reply.code(200);
-    // Send the request body as the response
-    return { port: 'funding', ret: id};
-  })
+  //   // Set the response status code
+  //   reply.code(200);
+  //   // Send the request body as the response
+  //   return { port: 'funding', ret: id};
+  // })
 }
