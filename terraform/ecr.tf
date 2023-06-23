@@ -1,6 +1,6 @@
 # create ECR and push images in this repo
 resource "aws_ecr_repository" "final_ecr_repo" {
-  name = "crowd_ecr_repo" 
+  name = "terraform_funding" 
 }
 
 ## ecr repo생성은 완료 
