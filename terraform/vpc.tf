@@ -2,7 +2,7 @@
 resource "aws_vpc" "lastvpc" {
   cidr_block = "10.0.0.0/16"
   tags = {
-    Name = "last-vpc"
+    Name = "terraform-vpc"
   }
 }
 
@@ -11,7 +11,7 @@ resource "aws_internet_gateway" "lastigw" {
   vpc_id = aws_vpc.lastvpc.id
 
   tags = {
-    Name = "internet-gateway"
+    Name = "terraform-igw"
   }
 }
 
@@ -25,7 +25,7 @@ resource "aws_route_table" "rt_pub" {
   }
 
   tags = {
-    Name = "last-rt"
+    Name = "terraform-route-table"
   }
 }
 
@@ -34,17 +34,19 @@ resource "aws_subnet" "pubSub1" {
   vpc_id     = aws_vpc.lastvpc.id
   cidr_block = "10.0.1.0/24"
   availability_zone = "ap-northeast-2a"
+
+  // 인스턴스에 공용 IP 주소를 할당해야 함
   map_public_ip_on_launch = true
 
   tags = {
     Name = "public-subnet-01-for-funding-fargate"
   }
 }
-
-resource "aws_subnet" "pubSubt2" {
+resource "aws_subnet" "pubSub2" {
   vpc_id     = aws_vpc.lastvpc.id
   cidr_block = "10.0.2.0/24"
   availability_zone = "ap-northeast-2c"
+
   map_public_ip_on_launch = true
 
   tags = {
@@ -52,25 +54,50 @@ resource "aws_subnet" "pubSubt2" {
   } 
 }
 
+# route table과 subnet 연결
+resource "aws_route_table_association" "a" {
+  subnet_id      = aws_subnet.pubSub1.id
+  route_table_id = aws_route_table.rt_pub.id
+}
+
+resource "aws_route_table_association" "b" {
+  subnet_id      = aws_subnet.pubSub2.id
+  route_table_id = aws_route_table.rt_pub.id
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # create private subs for RDS
-resource "aws_subnet" "privateSubnet1" {
-  vpc_id     = aws_vpc.lastvpc.id
-  cidr_block = "10.0.4.0/24"
-  availability_zone = "ap-northeast-2a"
+# resource "aws_subnet" "privateSubnet1" {
+#   vpc_id     = aws_vpc.lastvpc.id
+#   cidr_block = "10.0.4.0/24"
+#   availability_zone = "ap-northeast-2a"
 
-  tags = {
-    Name = "private-subnet-01-for-funding-RDS"
-  }
-}
+#   tags = {
+#     Name = "private-subnet-01-for-funding-RDS"
+#   }
+# }
 
-resource "aws_subnet" "privateSubnet2" {
-  vpc_id     = aws_vpc.lastvpc.id
-  cidr_block = "10.0.5.0/24"
-  availability_zone = "ap-northeast-2c"
+# resource "aws_subnet" "privateSubnet2" {
+#   vpc_id     = aws_vpc.lastvpc.id
+#   cidr_block = "10.0.5.0/24"
+#   availability_zone = "ap-northeast-2c"
 
-  tags = {
-    Name = "private-subnet-02-for-funding-RDS"
-  }
-}
+#   tags = {
+#     Name = "private-subnet-02-for-funding-RDS"
+#   }
+# }
 
 
