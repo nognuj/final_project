@@ -8,7 +8,6 @@ exports.handler = async (event) => {
     if (!event.Records || event.Records.length === 0) {
       throw new Error("Invalid event. No records found.");
     }
-    console.log("-------1---------");
 
     for (const record of event.Records) {
       // SQS 메시지의 body 파싱

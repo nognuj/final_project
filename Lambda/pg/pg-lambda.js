@@ -38,14 +38,10 @@ exports.handler = async (event) => {
   for (const record of event.Records) {
     console.log(record);
     const body = JSON.parse(record.body);
-    //console.log(body.Message);
+
     const { status, payload } = JSON.parse(body.Message);
     //기존1
-    //const { status, payload } = body.Message;
-    console.log("status:", status);
-    console.log("payload:", payload);
 
-    //const { status, payload } = body;
     //기존2
     let sendMailSnsParams;
     if (await failEvent(status, payload)) {
@@ -65,11 +61,8 @@ exports.handler = async (event) => {
           payload,
           status,
         };
-        console.log("---------------1--------------");
         await snsPublish(approvePaymentSnsParams);
-        console.log("---------------2--------------");
         await insertMessageIntoDynamoDB(PaymentTransaction);
-        console.log("---------------3--------------");
       } catch (error) {
         console.log(error);
         const msg = {
@@ -97,26 +90,21 @@ exports.handler = async (event) => {
         MessageBody: JSON.stringify(msg),
         QueueUrl: ETC_DLQ,
       };
-      console.log("///////////////////////////");
-      console.log(sendDlqSqsParams);
-      console.log("///////////////////////////");
 
       await sqs.sendMessage(sendDlqSqsParams).promise();
-      console.log("sqs 메세지 보냈음");
+
       const PaymentTransaction = {
         payload,
         status,
       };
-      console.log("Db 넣기 전");
       await insertMessageIntoDynamoDB(PaymentTransaction);
-      console.log("Db 넣은 후 ");
     }
     const sendMailInfo = {
       toDiscord: false,
       from: "sendEmail",
       senderEmail: "ehddnr4870@gmail.com", // 발신자 이메일 주소
       receiverEmail: "xehddnr@naver.com",
-      subject: "~~님의 결제 결과입니다",
+      subject: "동욱님의 펀딩 참여.",
       body: "어쩌구 저쩌구~~~",
     };
     console.log(sendMailInfo);

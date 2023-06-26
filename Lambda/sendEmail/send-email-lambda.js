@@ -4,12 +4,7 @@ const ses = new AWS.SES({ region });
 
 exports.handler = async (event, context) => {
   const body = JSON.parse(event.Records[0].body);
-  console.log("---------1--------");
-  console.log(body);
-  console.log(body.Message);
   const message = JSON.parse(body.Message);
-  console.log("---------2--------");
-  console.log(message);
 
   try {
     // SQS 메시지 파싱
