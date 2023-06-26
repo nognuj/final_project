@@ -5,6 +5,147 @@ module.exports = async function (fastify, opts) {
     return { root: '/funding read write ci/cd  강원도로 가는게 좋을까?' }
   })
 
+  //gahyun-funding added
+  // GET -> /api/fundings
+  fastify.get('/api/fundings', async function (request, reply) {
+    
+    try{
+      //const funding = request.body;
+       // db connection
+      const connection = await fastify.mysql.getConnection();
+
+      // 일단 추출
+      const funding_list = await connection.query(
+        `SELECT * FROM test.Funding`
+      );
+
+      connection.release();
+
+      if (funding_list.length === 0) {
+        reply.code(404).send({ error: 'FundingId not found' });
+      } else {
+      reply.code(200).send({ funding_list });
+      }
+    
+    } catch (error) {
+      console.error('Error:', error);
+      reply.code(500).send({ error: 'Internal server error' });
+    }
+  });
+
+  // GET -> /api/funding/:fundingId
+  fastify.get('/api/funding/:fundingId', async function (request, reply) {
+    try {
+     
+      const fundingId = request.params.fundingId;
+  
+      
+      const connection = await fastify.mysql.getConnection();
+  
+      
+      const query = 'SELECT * FROM test.Funding WHERE fundingId = ?';
+      const [funding] = await connection.execute(query, [fundingId]);
+  
+      connection.release();
+  
+      if (funding.length === 0) {
+        reply.code(404).send({ error: 'FundingId not found' });
+      } else {
+        reply.code(200).send({ funding });
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      reply.code(500).send({ error: 'Internal server error' });
+    }
+  });
+
+  // POST -> /api/funding
+  fastify.post('/api/funding', async function (request, reply) {
+    
+    try{
+       // db connection
+      const connection = await fastify.mysql.getConnection();
+      // startDate and endDate 는 요청 바디에서 가져오지않고 임의로 정해줄꺼임.
+      const {title, description, fundingAmount, minAmount, maxAmount} = request.body;
+      const startData = new Date('2023-06-25T09:00:00');
+      const endData = new Date('2023-07-25T15:30:00');
+      const millisecondsPerDay = 1000 * 60 * 60 * 24;
+      const durationInMilliseconds = endData - startData;
+      const duration = Math.ceil(durationInMilliseconds / millisecondsPerDay);
+      const createdAt = new Date();
+      const status = 0; //funding is an inactive by default
+      // const currentDate = new Date ()
+      // if (currentDate >= startDate && currentDate <= endDate) {
+      //   status = 1 // during the period of funding, it's active
+      // } else {
+      //   status = 0 // otherwise
+      // }
+
+     // Insert Data
+     // fundingId is created automatically according to the database table
+      const funding_list = await connection.query(
+        `INSERT INTO test.Funding (title, description, duration, startDate, endDate, createdAt, status, fundingAmount, minAmount, maxAmount)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+         [title, description, duration, startData, endData, createdAt, status, fundingAmount, minAmount, maxAmount]
+      );
+
+      connection.release();
+
+      reply.code(201).send({ message: 'Funding created successfully' });
+
+    } catch (error) {
+      console.error('Error:', error);
+      reply.code(500).send({ error: 'Internal server error' });
+    }
+  })
+
+  // DELETE the data of a certain fundingId
+  fastify.delete('/api/funding/:fundingId', async function (request, reply) {
+    try {
+      const fundingId = request.params.fundingId;
+  
+      const connection = await fastify.mysql.getConnection();
+  
+      const query = 'DELETE FROM test.Funding WHERE fundingId = ?';
+      const [result] = await connection.execute(query, [fundingId]);
+  
+      connection.release();
+  
+      if (result.affectedRows === 0) {
+        reply.code(400).send({ error: 'FundingId not found' });
+      } else {
+        reply.code(200).send({ message: 'Funding deleted successfully' });
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      reply.code(500).send({ error: 'Internal server error' });
+    }
+  });
+
+  // PUT method for a certain funding proj
+//   fastify.put('/api/funding', async function (request, reply) {
+//     try {
+//       const fundingId = request.params.fundingId;
+  
+//       const connection = await fastify.mysql.getConnection();
+  
+//       const query = 'UPDATE funding SET title = ?, description = ?, startDate = ?, endDate = ?, fundingAmount = ?, minAmount = ?, maxAmount = ? WHERE fundingId = ?';
+//       const [result] = await connection.execute(query, [title, description, startDate, endDate, fundingAmount, minAmount, maxAmount, fundingId]);
+  
+//       connection.release();
+  
+//       if (result.affectedRows === 0) {
+//         reply.code(400).send({ error: 'FundingId not found' });
+//       } else {
+//         reply.code(200).send({ message: 'Funding deleted successfully' });
+//       }
+//     } catch (error) {
+//       console.error('Error:', error);
+//       reply.code(500).send({ error: 'Internal server error' });
+//     }
+//   });
+  
+// //--------------------------------------------------------------------------
   fastify.post('/createDB', async function (request, reply) {
     
     // db connection
@@ -88,3 +229,5 @@ module.exports = async function (fastify, opts) {
     return { ret : 'delete table' };
   })
 }
+
+
