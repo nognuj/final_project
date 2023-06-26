@@ -28,10 +28,10 @@ name: payment Deploy to Amazon ECS
 
 on:
   # 잠시 멈춤
-  # push:
-  #   branches: [ master ]
   push:
-    branches: [ payment ]  
+    branches: [ master ]
+  # push:
+  #   branches: [ payment ]  
   # pull_request_target:
   #   branches: [ payment ] 
 
