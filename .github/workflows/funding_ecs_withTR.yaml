@@ -28,23 +28,23 @@ name: funding Deploy to Amazon ECS with Terraform
 
 on:
   # 잠시 멈춤
-  push:
-    branches: [ master ]
   # push:
-  #   branches: [ funding ]  
+  #   branches: [ master ]
+  push:
+    branches: [ funding ]  
   # pull_request_target:
     # branches: [ funding ]
 
 
-# env:
-  # AWS_REGION: ap-northeast-2                   # set this to your preferred AWS region, e.g. us-west-1
+env:
+  AWS_REGION: ap-northeast-2                   # set this to your preferred AWS region, e.g. us-west-1
 
-  # ECR_REPOSITORY: # reponame           # set this to your Amazon ECR repository name
-  # ECS_SERVICE: # service name                 # set this to your Amazon ECS service name
-  # ECS_CLUSTER: #cluster name                 # set this to your Amazon ECS cluster name
-  # ECS_TASK_DEFINITION: .aws/funding_td.json        # set this to the path to your Amazon ECS task definition
-  #                                              # file, e.g. .aws/task-definition.json
-  # CONTAINER_NAME: #container name           # set this to the name of the container in the
+  ECR_REPOSITORY: terraform_funding # reponame           # set this to your Amazon ECR repository name
+  ECS_SERVICE: terraform_ecs_funding # service name                 # set this to your Amazon ECS service name
+  ECS_CLUSTER: terraform-cluster #cluster name                 # set this to your Amazon ECS cluster name
+  ECS_TASK_DEFINITION: .aws/funding_td_terraform.json        # set this to the path to your Amazon ECS task definition
+                                                # file, e.g. .aws/task-definition.json
+  CONTAINER_NAME: funding_ct #container name           # set this to the name of the container in the
                                                # containerDefinitions section of your task definition
 
 permissions:
