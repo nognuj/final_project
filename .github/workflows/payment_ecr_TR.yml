@@ -1,10 +1,10 @@
 name: payment Deploy to ECR TR
 
 on:
-  # push:
-  #   branches: [ master ]
   push:
-    branches: [ payment ]
+    branches: [ master ]
+  # push:
+  #   branches: [ payment ]
   # task_def로 main.yaml은 사용하지 않음
   # push:
   #   branches: [ main ]

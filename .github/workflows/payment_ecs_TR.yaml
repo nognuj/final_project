@@ -28,10 +28,10 @@ name: payment Deploy to Amazon ECS with TR
 
 on:
   # 잠시 멈춤
-  push:
-    branches: [ master ]
   # push:
-  #   branches: [ payment ]  
+  #   branches: [ master ]
+  push:
+    branches: [ payment ]  
   # pull_request_target:
   #   branches: [ payment ] 
 
@@ -43,7 +43,7 @@ env:
   ECS_CLUSTER: cluster-crowdfunding                 # set this to your Amazon ECS cluster name
   ECS_TASK_DEFINITION: .aws/payment_td_TR.json        # set this to the path to your Amazon ECS task definition
                                                # file, e.g. .aws/task-definition.json
-  CONTAINER_NAME: payment_ct           # set this to the name of the container in the
+  CONTAINER_NAME: pay_ct           # set this to the name of the container in the
                                                # containerDefinitions section of your task definition
 
 permissions:
