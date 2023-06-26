@@ -13,29 +13,34 @@ exports.handler = async (event) => {
   console.log("-------payload------");
   console.log(payload);
   const date = new Date(payload.date);
-  console.log("-------date------");
-  console.log(date.toISOString());
-  const params = {
+  let params = {
     TableName: "paymentTransactions",
     FilterExpression: "#createdAt > :date",
     ExpressionAttributeValues: {
-      ":date": `"${date.toISOString()}"`,
+      ":date": `"${date.toISOString()}"`, // 쌍따옴표를 추가합니다.
     },
     ExpressionAttributeNames: {
       "#createdAt": "createdAt",
     },
   };
-
-  try {
-    const data = await dynamodb.scan(params).promise();
-    console.log("-------data------");
-    console.log(data);
-    const { message } = data.Items;
-    console.log("-------message------");
-    console.log(message);
-    return data.Items;
-  } catch (err) {
-    console.error(err);
-    throw err;
+  let response = await dynamodb.scan(params).promise();
+  const filteredItems = response.Items.filter((el) => {
+    const parsedMessage = JSON.parse(el.message);
+    const status = parsedMessage.status;
+    if (status === 1) {
+      return true;
+    }
+  });
+  for (let i = 0; i < filteredItems.length; i++) {
+    const { payload = {} } = JSON.parse(filteredItems[i].message);
+    payload.paymentId = filteredItems[i].id;
+    const params = {
+      Message: {
+        status: 3,
+        payload,
+      },
+      TopicArn: PAYMENT_ATTEMPT_TOPIC_ARN,
+    };
+    await sns.publish(params).promise();
   }
 };

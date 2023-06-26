@@ -53,7 +53,7 @@ exports.handler = async (event) => {
       return "someting went wrong";
     }
 
-    if (status === 1) {
+    if (status === 1 || status === 3) {
       // status가 1일 때 SNS 토픽 발행
       // 성공 케이스
       const approvePaymentSnsParams = {
