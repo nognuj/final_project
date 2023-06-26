@@ -16,7 +16,7 @@
 # }
 
 resource "aws_ecs_task_definition" "terraform_td_funding" {
-  family                   = "terraform_td_funding"
+  family                   = "terraform_funding_td"
   execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
@@ -28,10 +28,25 @@ resource "aws_ecs_task_definition" "terraform_td_funding" {
     {
       "name": "funding_ct",
       "image": "997059781683.dkr.ecr.ap-northeast-2.amazonaws.com/terraform_funding:latest",
-      "cpu": 1024,
-      "memory": 2048,
-      "essential": true
-      
+      "portMappings": [
+        {
+          "name": "funding_ct-3000-tcp",
+          "containerPort": 3000,
+          "hostPort": 3000,
+          "protocol": "tcp",
+          "appProtocol": "http"
+        }
+      ],
+      "essential": true,
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-create-group": "true",
+          "awslogs-group": "/ecs/terraform_td_funding",
+          "awslogs-region": "ap-northeast-2",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
     }
   ]
   TASK_DEFINITION
@@ -68,26 +83,22 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution_role" {
 
 // cloudwatch 붙이기! > 뭔가 독립적으로 연결을 하는 구나 알아서 찾아서 연결
 // 지표수집으로 프로메테우스에다가도 붙일 수 있단
-# cloudeatch 연결해야되는 부분이 있어야 될거 같은데 없어 보임
-# resource "aws_cloudwatch_log_group" "testapp_log_group" {
-#   name = "/ecs/terraform_td_funding"
-#   retention_in_days = 30
+# cloudwatch 연결해야되는 부분이 있어야 될거 같은데 없어 보임
+resource "aws_cloudwatch_log_group" "testapp_log_group" {
+  name = "/ecs/terraform_td_funding"
+  retention_in_days = 30
 
-#   tags = {
-#     Name = "cw-log-group-terraform_td_funding"
-#   }
-# }
+  # tags = {
+  #   Name = "cw-log-group-terraform_td_funding"
+  # }
+}
 
+
+# 이 부분이 굳이 없어도 자동으로 생성시켜주는 것 같음
 # resource "aws_cloudwatch_log_stream" "myapp_log_stream" {
 #   name = "terraform_td_funding-stream"
 #   log_group_name =  aws_cloudwatch_log_group.testapp_log_group.name
 # }
-
-
-
-
-
-
 
 #  암호화는 이거 비스무리하게한다
 # resource "aws_secretsmanager_secret_version" "test" {
