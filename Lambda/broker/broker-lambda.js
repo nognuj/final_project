@@ -3,8 +3,12 @@ const region = "ap-northeast-2";
 const sns = new AWS.SNS({ region });
 require("dotenv").config();
 
-const { PAYMENT_APPROVAL_REQUEST_SNS_ARN } = process.env;
+const { PAYMENT_ATTEMPT_TOPIC_ARN, GOAL_ACHIVEMENT_TOPIC_ARN } = process.env;
 
+const SNSArns = {
+  pament_attempt: PAYMENT_ATTEMPT_TOPIC_ARN,
+  goal_achivement: GOAL_ACHIVEMENT_TOPIC_ARN,
+};
 exports.handler = async (event, context) => {
   // console.log(event);
   // const auth = Boolean(event.headers["Auth"]);
@@ -15,8 +19,8 @@ exports.handler = async (event, context) => {
   console.log("----headers---");
   console.log(headers);
   console.log("-----Message----");
-  console.log(Message);
-  const auth = headers["auth"];
+  const { status = 1, payload = {}, destination = "pament_attempt" } = Message;
+  const auth = headers["Auth"];
   if (auth !== true) {
     console.log("haha");
     return {
@@ -24,16 +28,18 @@ exports.handler = async (event, context) => {
       body: JSON.stringify({ message: "permission denied" }),
     };
   }
-  console.log("--------1--------------");
+
   const params = {
-    Message,
-    TopicArn: PAYMENT_APPROVAL_REQUEST_SNS_ARN,
+    Message: {
+      status,
+      payload,
+    },
+    TopicArn: SNSArns[destination],
   };
-  console.log("--------2--------------");
+
   try {
-    console.log("--------3--------------");
     await sns.publish(params).promise();
-    console.log("--------4--------------");
+
     try {
       return {
         statusCode: 200,
