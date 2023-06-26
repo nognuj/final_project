@@ -157,3 +157,52 @@ resource "aws_cloudwatch_log_group" "testapp_log_group2" {
   name = "/ecs/terraform_td_funding_rw"
   retention_in_days = 30
 }
+
+resource "aws_ecs_task_definition" "terraform_td_pay" {
+  family                   = "terraform_pay"
+  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
+  requires_compatibilities = ["FARGATE"]
+  network_mode             = "awsvpc"
+  cpu                      = 1024
+  memory                   = 2048
+  # container_definitions    = data.template_file.testapp.rendered
+  container_definitions    = <<TASK_DEFINITION
+  [
+    {
+      "name": "pay_ct",
+      "image": "997059781683.dkr.ecr.ap-northeast-2.amazonaws.com/terraform_payment:latest",
+      "portMappings": [
+        {
+          "name": "pay_ct-3000-tcp",
+          "containerPort": 3000,
+          "hostPort": 3000,
+          "protocol": "tcp",
+          "appProtocol": "http"
+        }
+      ],
+      "essential": true,
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-create-group": "true",
+          "awslogs-group": "/ecs/terraform_td_pay",
+          "awslogs-region": "ap-northeast-2",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ]
+  TASK_DEFINITION
+
+  runtime_platform {
+    operating_system_family = "LINUX"
+    cpu_architecture        = "X86_64"
+  }
+
+}
+
+
+resource "aws_cloudwatch_log_group" "testapp_log_group3" {
+  name = "/ecs/terraform_td_pay"
+  retention_in_days = 30
+}
