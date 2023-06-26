@@ -1,6 +1,6 @@
 # # aws_ecs_cluster_serivce
 resource "aws_ecs_service" "terraform_ecs_serivce" {
-  name            = "terraform_ecs_serivce"
+  name            = "terraform_ecs_funding"
   cluster         = aws_ecs_cluster.crowd_cluster.id
   task_definition = aws_ecs_task_definition.terraform_td_funding.arn
   desired_count   = 1

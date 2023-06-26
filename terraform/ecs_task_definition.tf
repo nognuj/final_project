@@ -16,7 +16,7 @@
 # }
 
 resource "aws_ecs_task_definition" "terraform_td_funding" {
-  family                   = "terraform_td_funding"
+  family                   = "terraform_funding_td"
   execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
@@ -99,12 +99,6 @@ resource "aws_cloudwatch_log_group" "testapp_log_group" {
 #   name = "terraform_td_funding-stream"
 #   log_group_name =  aws_cloudwatch_log_group.testapp_log_group.name
 # }
-
-
-
-
-
-
 
 #  암호화는 이거 비스무리하게한다
 # resource "aws_secretsmanager_secret_version" "test" {
