@@ -2,7 +2,7 @@
 
 module.exports = async function (fastify, opts) {
   fastify.get('/', async function (request, reply) {
-    return { root: '/funding read only 이게 마지막 test FAKE 1' }
+    return { root: '/funding read only 사나운 고양이' }
   })
 
   // fastify.get('/get', async function (request, reply) {
