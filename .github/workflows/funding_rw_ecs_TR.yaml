@@ -28,23 +28,22 @@ name: funding_rw Deploy to Amazon ECS with TR
 
 on:
   # 잠시 멈춤
-  push:
-    branches: [ master ]
   # push:
-  #   branches: [ funding_rw ]  
+  #   branches: [ master ]
+  push:
+    branches: [ funding_rw ]  
   # pull_request_target:
   #   branches: [ funding_rw ] 
     
 
-# env:
-#   AWS_REGION: ap-northeast-2                   # set this to your preferred AWS region, e.g. us-west-1
-
-#   ECR_REPOSITORY: repo이름           # set this to your Amazon ECR repository name
-#   ECS_SERVICE: 서비스 이름                 # set this to your Amazon ECS service name
-#   ECS_CLUSTER: 클러스터 이름                 # set this to your Amazon ECS cluster name
-#   ECS_TASK_DEFINITION: .aws/funding_rw_td.json        # set this to the path to your Amazon ECS task definition
-#                                                # file, e.g. .aws/task-definition.json
-#   CONTAINER_NAME: 컨테이너 이름           # set this to the name of the container in the
+env:
+  AWS_REGION: ap-northeast-2                   # set this to your preferred AWS region, e.g. us-west-1
+  ECR_REPOSITORY: terraform_funding_read_write           # set this to your Amazon ECR repository name
+  ECS_SERVICE: terraform_ecs_funding_rw                 # set this to your Amazon ECS service name
+  ECS_CLUSTER: terraform-cluster                 # set this to your Amazon ECS cluster name
+  ECS_TASK_DEFINITION: .aws/funding_rw_td_TR.json        # set this to the path to your Amazon ECS task definition
+                                               # file, e.g. .aws/task-definition.json
+  CONTAINER_NAME: funding_rw_ct           # set this to the name of the container in the
                                                # containerDefinitions section of your task definition
 
 permissions:
