@@ -8,7 +8,7 @@ resource "aws_alb" "terra_alb" {
 # # // 이게 총 3개!
 resource "aws_alb_target_group" "alb_target_group_funding" {
     name = "funding-tg"
-    port = 3000 // 80이 맞지 않나?
+    port = 3000 // 80이 맞지 않나? 구성
     protocol = "HTTP"
     target_type = "ip"
     vpc_id = aws_vpc.lastvpc.id
