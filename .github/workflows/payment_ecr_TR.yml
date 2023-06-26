@@ -1,4 +1,4 @@
-name: payment Deploy to ECR
+name: payment Deploy to ECR TR
 
 on:
   # push:
