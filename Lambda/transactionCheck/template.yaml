@@ -1,0 +1,26 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  transactionCheck
+Transform:
+  - AWS::Serverless-2016-10-31
+Resources:
+  helloFromLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: transaction-check-lambda.handler
+      Runtime: nodejs14.x
+      Events:
+        TransactionCheckSQSEvent:
+          Type: SQS
+          Properties:
+            Queue: arn:aws:sqs:ap-northeast-2:156557625960:targetAmountReached
+            BatchSize: 10
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: A Lambda function that checks transaction.
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AmazonDynamoDBReadOnlyAccess
+        - AmazonSQSFullAccess
