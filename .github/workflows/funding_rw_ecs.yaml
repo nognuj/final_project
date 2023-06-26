@@ -28,10 +28,10 @@ name: funding_rw Deploy to Amazon ECS
 
 on:
   # 잠시 멈춤
-  push:
-    branches: [ master ]
   # push:
-  #   branches: [ funding_rw ]  
+  #   branches: [ master ]
+  push:
+    branches: [ funding_rw ]  
   # pull_request_target:
   #   branches: [ funding_rw ] 
     
