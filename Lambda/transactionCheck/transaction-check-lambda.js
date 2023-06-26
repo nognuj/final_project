@@ -1,8 +1,12 @@
 const AWS = require("aws-sdk");
 const region = "ap-northeast-2";
+
 const dynamodb = new AWS.DynamoDB.DocumentClient({ region });
+const sns = new AWS.SNS({ region });
+require("dotenv").config();
 
 exports.handler = async (event) => {
+  const { PAYMENT_ATTEMPT_TOPIC_ARN } = process.env;
   // Parse date from SQS message
   console.log("-------event------");
   console.log(event);
