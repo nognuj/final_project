@@ -3,11 +3,11 @@ name: funding Deploy to ECR
 on:
   
   # 멈춤
-  # push:
-  #   branches: [ master ]
-
   push:
-    branches: [ funding ]  
+    branches: [ master ]
+
+  # push:
+  #   branches: [ funding ]  
   
   # task_def로 main.yaml은 사용하지 않음
   # push:
