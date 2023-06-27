@@ -11,8 +11,3 @@ terraform {
 provider "aws" {
   region = "ap-northeast-2"
 }
-
-variable "account-id" {
-  type    = string
-  default = "138191045074"
-}
