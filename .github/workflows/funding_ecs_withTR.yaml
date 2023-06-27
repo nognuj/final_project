@@ -28,15 +28,16 @@ name: funding Deploy to Amazon ECS with Terraform
 
 on:
   # 잠시 멈춤
-  push:
-    branches: [ master ]
   # push:
-  #   branches: [ payment ]  
+  #   branches: [ master ]
+  push:
+    branches: [ funding ]  
   # pull_request_target:
-  #   branches: [ payment ] 
+    # branches: [ funding ]
+
 
 env:
-  AWS_REGION: ap-northeast-2 # set this to your preferred AWS region, e.g. us-west-1
+  AWS_REGION: ap-northeast-2                   # set this to your preferred AWS region, e.g. us-west-1
 
   ECR_REPOSITORY: terraform_funding # reponame           # set this to your Amazon ECR repository name
   ECS_SERVICE: terraform_ecs_funding # service name                 # set this to your Amazon ECS service name
@@ -56,8 +57,8 @@ jobs:
     environment: production
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+    - name: Checkout
+      uses: actions/checkout@v3
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -66,9 +67,9 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }} # secret key add
         aws-region: ${{ env.AWS_REGION }}
 
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
 
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
@@ -84,18 +85,18 @@ jobs:
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
-      - name: Fill in the new image ID in the Amazon ECS task definition
-        id: task-def
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: ${{ env.ECS_TASK_DEFINITION }}
-          container-name: ${{ env.CONTAINER_NAME }}
-          image: ${{ steps.build-image.outputs.image }}
+    - name: Fill in the new image ID in the Amazon ECS task definition
+      id: task-def
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: ${{ env.ECS_TASK_DEFINITION }}
+        container-name: ${{ env.CONTAINER_NAME }}
+        image: ${{ steps.build-image.outputs.image }}
 
-      - name: Deploy Amazon ECS task definition
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-        with:
-          task-definition: ${{ steps.task-def.outputs.task-definition }}
-          service: ${{ env.ECS_SERVICE }}
-          cluster: ${{ env.ECS_CLUSTER }}
-          wait-for-service-stability: true
+    - name: Deploy Amazon ECS task definition
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+        task-definition: ${{ steps.task-def.outputs.task-definition }}
+        service: ${{ env.ECS_SERVICE }}
+        cluster: ${{ env.ECS_CLUSTER }}
+        wait-for-service-stability: true
