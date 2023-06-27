@@ -94,7 +94,7 @@ resource "aws_sqs_queue" "etc_error_dlq" {
 
 
 resource "aws_sns_topic_subscription" "payment_attempt_sqs_target" {
-  topic_arn = "arn:aws:sns:ap-northeast-2:138191045074:payment_attempt"
+  topic_arn = "${aws_sns_topic.payment_attempt.arn}"
   protocol  = "sqs"
-  endpoint  = "arn:aws:sqs:ap-northeast-2:138191045074:payment_attempt_queue"
+  endpoint  = "${aws_sqs_queue.payment_attempt_queue.arn}"
 }

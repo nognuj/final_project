@@ -91,7 +91,7 @@ resource "aws_sqs_queue" "after_approval_dlq" {
 
 
 resource "aws_sns_topic_subscription" "after_approval_target" {
-  topic_arn = "arn:aws:sns:ap-northeast-2:138191045074:after_approval"
+  topic_arn = "${aws_sns_topic.after_approval.arn}"
   protocol  = "sqs"
-  endpoint  = "arn:aws:sqs:ap-northeast-2:138191045074:after_approval_queue"
+  endpoint  = "${aws_sqs_queue.after_approval_queue.arn}"
 }

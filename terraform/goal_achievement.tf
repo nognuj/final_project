@@ -91,7 +91,7 @@ resource "aws_sqs_queue" "goal_achievement_dlq" {
 
 
 resource "aws_sns_topic_subscription" "goal_achievement_target" {
-  topic_arn = "arn:aws:sns:ap-northeast-2:138191045074:goal_achievement"
+  topic_arn = "${aws_sns_topic.goal_achievement.arn}"
   protocol  = "sqs"
-  endpoint  = "arn:aws:sqs:ap-northeast-2:138191045074:goal_achievement_queue"
+  endpoint  = "${aws_sqs_queue.goal_achievement_queue.arn}"
 }
