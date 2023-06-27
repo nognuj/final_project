@@ -4,6 +4,7 @@ resource "aws_vpc" "lastvpc" {
   tags = {
     Name = "terraform-vpc"
   }
+  enable_dns_hostnames = true
 }
 
 # create igw
