@@ -10,7 +10,9 @@ resource "aws_lambda_function" "fundingUpdate_lambda" {
   role             = aws_iam_role.fundingUpdate_lambda_role.arn
   runtime          = "nodejs14.x"
   environment {
-    
+     variables = {      
+      TABLE_NAME = aws_dynamodb_table.paymentTransactions.name
+    }  
   }
 }
 

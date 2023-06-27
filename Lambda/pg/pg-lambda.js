@@ -104,7 +104,12 @@ exports.handler = async (event) => {
       from: "sendEmail",
       senderEmail: "ehddnr4870@gmail.com", // 발신자 이메일 주소
       receiverEmail: "xehddnr@naver.com",
-      subject: "동욱님의 펀딩 참여.",
+      subject:
+        status === 1
+          ? "동욱님의 펀딩 참여."
+          : status === 3
+          ? "동욱님의 결제 취소."
+          : "동욱님의 펀딩 참여 에러",
       body: "어쩌구 저쩌구~~~",
     };
     console.log(sendMailInfo);
