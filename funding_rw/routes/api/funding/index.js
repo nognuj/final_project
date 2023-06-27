@@ -1,4 +1,5 @@
 'use strict'
+const axios = require('axios');
 
 module.exports = async function (fastify, opts) {
 
@@ -112,10 +113,20 @@ module.exports = async function (fastify, opts) {
   //PUT method for a certain funding proj
   fastify.put('/:fundingId', async function (request, reply) {
     try {
-      // const API_GATEWAY_URL = "https://7gnfo6nmjj.execute-api.ap-northeast-2.amazonaws.com/Prod/sns/publication/pg";
+      const API_GATEWAY_URL = "https://e87z0kfwe1.execute-api.ap-northeast-2.amazonaws.com/prod/broker";
 
       const fundingId = request.params.fundingId;
       const { fundingAmount } = request.body;
+
+      const headers = {
+        Auth: true,
+      };
+      const body = { 
+        destination:"goal_achivement",
+        payload: {
+          date:new Date("2023-06-27T05:54:15.659Z")
+        },
+      };
   
       const connection = await fastify.mysql.getConnection();
       
@@ -124,21 +135,22 @@ module.exports = async function (fastify, opts) {
       await connection.execute(updatedQuery, [fundingAmount ,fundingId]);
       
       // get the updated funding amount
-      const getQuery = 'SELECT fundingAmount FROM test.Funding WHERE fundingId = ?';
+      const getQuery = 'SELECT * FROM test.Funding WHERE fundingId = ?';
       const [result] = await connection.execute(getQuery, [fundingId]);
       const updatedAmount = result[0].fundingAmount;
+      console.log(updatedAmount);
+      console.log(result[0]);
       const fundingGoal = result[0].fundingGoal;
-
+      console.log(fundingGoal);
       // status is changed after updating the funding amount
       if (updatedAmount >= fundingGoal) {
         const StatusQuery = 'UPDATE test.Funding SET status = ? WHERE fundingId = ?';
         await connection.execute(StatusQuery, [0, fundingId]);
+        console.log("확인")
+        await axios.post(API_GATEWAY_URL, body, { headers });
       }
 
       connection.release();
-
-      // const resert = await axios.post(API_GATEWAY_URL,{headers,body});
-      // console.log(resert);
 
       if (result.affectedRows === 0) {
         reply.code(404).send({ error: 'FundingId not found' });
