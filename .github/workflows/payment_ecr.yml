@@ -1,10 +1,8 @@
-name: payment Deploy to ECR TR
+name: payment Deploy to ECR
 
 on:
   push:
     branches: [ master ]
-  # push:
-  #   branches: [ payment ]
   # task_def로 main.yaml은 사용하지 않음
   # push:
   #   branches: [ main ]
@@ -34,6 +32,6 @@ jobs:
       
     - name: Build, tag, and push image to Amazon ECR
       run: |
-        docker build -t terraform_payment ./payment
-        docker tag terraform_payment:latest 997059781683.dkr.ecr.ap-northeast-2.amazonaws.com/terraform_payment:latest
-        docker push 997059781683.dkr.ecr.ap-northeast-2.amazonaws.com/terraform_payment:latest
+        docker build -t payment_ecr ./payment
+        docker tag payment_ecr:latest 997059781683.dkr.ecr.ap-northeast-2.amazonaws.com/payment_ecr:latest
+        docker push 997059781683.dkr.ecr.ap-northeast-2.amazonaws.com/payment_ecr:latest
