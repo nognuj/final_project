@@ -28,12 +28,24 @@ name: funding_rw Deploy to Amazon ECS with TR
 
 on:
   # 잠시 멈춤
+  push:
+    branches: [ master ]
+
+  # 마지막이 이거
   # push:
+<<<<<<< HEAD
   #   branches: [ master ]
   push:
     branches: [funding_rw]
   # pull_request_target:
   # branches: [ funding ]
+=======
+  #   branches: [ funding ]  
+  
+  # pull_request_target:
+    # branches: [ funding ]
+
+>>>>>>> 5423abb0511bf35c3402b1cf743e5292b6eae681
 
 env:
   AWS_REGION: ap-northeast-2 # set this to your preferred AWS region, e.g. us-west-1
