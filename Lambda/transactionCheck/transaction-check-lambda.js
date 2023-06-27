@@ -6,7 +6,7 @@ const sns = new AWS.SNS({ region });
 require("dotenv").config();
 
 exports.handler = async (event) => {
-  const { PAYMENT_ATTEMPT_TOPIC_ARN } = process.env;
+  const { PAYMENT_ATTEMPT_TOPIC_ARN, TABLE_NAME } = process.env;
   // Parse date from SQS message
   console.log("-------event------");
   console.log(event);
@@ -18,7 +18,7 @@ exports.handler = async (event) => {
   console.log(payload);
   const date = new Date(payload.date);
   let params = {
-    TableName: "paymentTransactions",
+    TableName: TABLE_NAME,
     FilterExpression: "#createdAt > :date",
     ExpressionAttributeValues: {
       ":date": `"${date.toISOString()}"`, // 쌍따옴표를 추가합니다.
@@ -39,10 +39,10 @@ exports.handler = async (event) => {
     const { payload = {} } = JSON.parse(filteredItems[i].message);
     payload.paymentId = filteredItems[i].id;
     const params = {
-      Message: {
+      Message: JSON.stringify({
         status: 3,
         payload,
-      },
+      }),
       TopicArn: PAYMENT_ATTEMPT_TOPIC_ARN,
     };
     await sns.publish(params).promise();

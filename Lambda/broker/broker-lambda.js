@@ -6,7 +6,7 @@ require("dotenv").config();
 const { PAYMENT_ATTEMPT_TOPIC_ARN, GOAL_ACHIVEMENT_TOPIC_ARN } = process.env;
 
 const SNSArns = {
-  pament_attempt: PAYMENT_ATTEMPT_TOPIC_ARN,
+  payment_attempt: PAYMENT_ATTEMPT_TOPIC_ARN,
   goal_achivement: GOAL_ACHIVEMENT_TOPIC_ARN,
 };
 exports.handler = async (event, context) => {
@@ -15,7 +15,10 @@ exports.handler = async (event, context) => {
   console.log(auth);
   const { body } = event;
   console.log(body);
-  const { status = 1, payload = {}, destination = "pament_attempt" } = body;
+
+  const { status, payload, destination } = JSON.parse(body);
+  console.log("------destination-----");
+  console.log(destination);
   // const auth = headers["Auth"];
   if (auth !== true) {
     console.log("haha");
@@ -32,7 +35,8 @@ exports.handler = async (event, context) => {
     }),
     TopicArn: SNSArns[destination],
   };
-
+  console.log("----params-----");
+  console.log(params);
   try {
     await sns.publish(params).promise();
 

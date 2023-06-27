@@ -6,12 +6,13 @@ resource "aws_lambda_function" "transaction_lambda" {
   function_name    = "transaction2"
   filename         = data.archive_file.transaction_lambda_zip_file.output_path
   source_code_hash = data.archive_file.transaction_lambda_zip_file.output_base64sha256
-  handler          = "transaction-lambda.handler"
+  handler          = "transaction-check-lambda.handler"
   role             = aws_iam_role.transaction_lambda_role.arn
   runtime          = "nodejs14.x"
   environment {
      variables = {
       PAYMENT_ATTEMPT_TOPIC_ARN     = aws_sns_topic.payment_attempt.arn
+      TABLE_NAME = aws_dynamodb_table.paymentTransactions.name
     }   
   }
 }
