@@ -91,7 +91,7 @@ resource "aws_sqs_queue" "payment_result_mailing_dlq" {
 
 
 resource "aws_sns_topic_subscription" "payment_result_mailing_target" {
-  topic_arn = "arn:aws:sns:ap-northeast-2:138191045074:payment_result_mailing"
+  topic_arn = "${aws_sns_topic.payment_result_mailing.arn}"
   protocol  = "sqs"
-  endpoint  = "arn:aws:sqs:ap-northeast-2:138191045074:payment_result_mailing_queue"
+  endpoint  = "${aws_sqs_queue.payment_result_mailing_queue.arn}"
 }
