@@ -110,7 +110,7 @@ module.exports = async function (fastify, opts) {
     }
   });
 
-  
+
   //PUT method for a certain funding proj
   fastify.put('/:fundingId', async function (request, reply) {
     try {
@@ -143,6 +143,7 @@ module.exports = async function (fastify, opts) {
       console.log(result[0]);
       const fundingGoal = result[0].fundingGoal;
       console.log(fundingGoal);
+      
       // status is changed after updating the funding amount
       if (updatedAmount >= fundingGoal) {
         const StatusQuery = 'UPDATE test.Funding SET status = ? WHERE fundingId = ?';
@@ -165,4 +166,4 @@ module.exports = async function (fastify, opts) {
   });
 }
 
-
+//수정1
