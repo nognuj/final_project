@@ -62,8 +62,8 @@ resource "aws_ecs_service" "terraform_ecs_serivce3" {
 }
 
 resource "aws_security_group" "terraform_sg" {
-  name        = "terraform_vpc"
-  description = "Allow TLS inbound traffic"
+  name = "sprint-pub-sg"
+  description = "project-pub-sg"
   vpc_id      = aws_vpc.lastvpc.id
 
   ingress {
@@ -92,6 +92,10 @@ resource "aws_security_group" "terraform_sg" {
     # ipv6_cidr_blocks = ["::/0"]
   }
 
+  lifecycle{
+        create_before_destroy = true
+  }
+  
   tags = {
     Name = "allow_tls"
   }

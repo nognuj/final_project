@@ -1,4 +1,11 @@
 
+output "lb_dns_name" {
+  description = "The DNS name of the load balancer"
+  value       = try(aws_alb.terra_alb.name, "")
+}
+
+
+
 resource "aws_alb" "terra_alb" {
     name = "terra-alb"
     subnets = [aws_subnet.pubSub1.id, aws_subnet.pubSub2.id]
@@ -65,7 +72,7 @@ resource "aws_alb_target_group" "alb_target_group_funding_rw" {
 
 resource "aws_lb_listener_rule" "alb_funding_post_rule" {
   listener_arn = aws_alb_listener.alb_listener.arn
-  priority     = 1
+  priority     = 11
 
   action {
     type = "forward"
@@ -85,15 +92,15 @@ resource "aws_lb_listener_rule" "alb_funding_post_rule" {
 
   condition {
     path_pattern {
-    #   values = ["/api/funding"]
-      values = ["/funding"]
+      values = ["/api/funding"]
+      # values = ["/funding"]
     }
   }
 }
 
 resource "aws_lb_listener_rule" "alb_funding_rw_post_rule" {
   listener_arn = aws_alb_listener.alb_listener.arn
-  priority     = 2
+  priority     = 10
 
   action {
     type             = "forward"
@@ -127,7 +134,7 @@ resource "aws_alb_target_group" "alb_target_group_pay" {
 
 resource "aws_lb_listener_rule" "alb_payment_rule" {
   listener_arn = aws_alb_listener.alb_listener.arn
-  priority     = 3
+  priority     = 9
 
   action {
     type             = "forward"
@@ -137,8 +144,8 @@ resource "aws_lb_listener_rule" "alb_payment_rule" {
 
   condition {
     path_pattern {
-    #   values = ["/api/payment"]
-      values = ["/payment"]
+      values = ["/api/payment"]
+      # values = ["/payment"]
     }
   }
 }
