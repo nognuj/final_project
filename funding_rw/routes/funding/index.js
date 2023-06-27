@@ -2,6 +2,7 @@
 
 module.exports = async function (fastify, opts) {
   fastify.get('/', async function (request, reply) {
-    return { root: 'root funding rw 입니다 아니 없어' }
+    return { root: '/funding read write ecs test 마지막임' }
   })
+
 }

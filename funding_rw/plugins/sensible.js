@@ -24,4 +24,5 @@ module.exports = fp(async function (fastify, opts) {
     connectionString: `mysql://admin:12345678@terrdb.cnd9cstsmizu.ap-northeast-2.rds.amazonaws.com/test`
     //connectionString: `mysql://admin:12345678@database-2.cnd9cstsmizu.ap-northeast-2.rds.amazonaws.com/test`
   })
+
 })
