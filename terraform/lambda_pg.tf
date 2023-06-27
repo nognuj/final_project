@@ -105,7 +105,7 @@ resource "aws_iam_policy" "pg_lambda_policy" {
      {
             "Effect": "Allow",
             "Action": ["dynamodb:Scan","dynamodb:PutItem"],
-            "Resource": "arn:aws:dynamodb:ap-northeast-2:138191045074:table/paymentTransactions2"
+            "Resource": "${aws_dynamodb_table.paymentTransactions.arn}"
         }
   ]
 }

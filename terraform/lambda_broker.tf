@@ -166,13 +166,16 @@ resource "aws_api_gateway_deployment" "api_deployment" {
   stage_name  = "prod"
 }
 
+
 # API Gateway의 엔드포인트를 통해 Lambda 함수 호출
+
 resource "aws_lambda_permission" "api_gateway_permission" {
   statement_id  = "AllowExecutionFromAPIGateway"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.broker_lambda.function_name
   principal     = "apigateway.amazonaws.com"
 
-  source_arn = aws_api_gateway_deployment.api_deployment.execution_arn
+  source_arn = "arn:aws:execute-api:${data.aws_region.current7.name}:${data.aws_caller_identity.current7.account_id}:${aws_api_gateway_rest_api.my_api_gateway.id}/*/${aws_api_gateway_method.api_method.http_method}/${aws_api_gateway_resource.api_resource.path_part}"
 }
+
 

@@ -10,17 +10,13 @@ const SNSArns = {
   goal_achivement: GOAL_ACHIVEMENT_TOPIC_ARN,
 };
 exports.handler = async (event, context) => {
-  // console.log(event);
-  // const auth = Boolean(event.headers["Auth"]);
-  // console.log(auth);
+  console.log(event);
+  const auth = Boolean(event.headers["Auth"]);
+  console.log(auth);
   const { body } = event;
   console.log(body);
-  const { headers, body: Message } = body;
-  console.log("----headers---");
-  console.log(headers);
-  console.log("-----Message----");
-  const { status = 1, payload = {}, destination = "pament_attempt" } = Message;
-  const auth = headers["Auth"];
+  const { status = 1, payload = {}, destination = "pament_attempt" } = body;
+  // const auth = headers["Auth"];
   if (auth !== true) {
     console.log("haha");
     return {
@@ -30,10 +26,10 @@ exports.handler = async (event, context) => {
   }
 
   const params = {
-    Message: {
+    Message: JSON.stringify({
       status,
       payload,
-    },
+    }),
     TopicArn: SNSArns[destination],
   };
 
