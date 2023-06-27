@@ -27,6 +27,7 @@ exports.handler = async (event) => {
       "#createdAt": "createdAt",
     },
   };
+
   let response = await dynamodb.scan(params).promise();
   const filteredItems = response.Items.filter((el) => {
     const parsedMessage = JSON.parse(el.message);
