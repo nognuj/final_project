@@ -24,30 +24,26 @@
 #    See the documentation for each action used below for the recommended IAM policies for this IAM user,
 #    and best practices on handling the access key credentials.
 
-name: funding Deploy to Amazon ECS
+name: funding_rw Deploy to Amazon ECS with TR
 
 on:
   # 잠시 멈춤
-  push:
-    branches: [ master ]
-
-  # 마지막이 이거
   # push:
-  #   branches: [ funding ]  
-  
+  #   branches: [ master ]
+  push:
+    branches: [ funding_rw ]  
   # pull_request_target:
-    # branches: [ funding ]
-
+  #   branches: [ funding_rw ] 
+    
 
 env:
   AWS_REGION: ap-northeast-2                   # set this to your preferred AWS region, e.g. us-west-1
-
-  ECR_REPOSITORY: crowdfunding-funding           # set this to your Amazon ECR repository name
-  ECS_SERVICE: crowdfunding-funding-default                 # set this to your Amazon ECS service name
-  ECS_CLUSTER: cluster-crowdfunding                 # set this to your Amazon ECS cluster name
-  ECS_TASK_DEFINITION: .aws/funding_td.json        # set this to the path to your Amazon ECS task definition
+  ECR_REPOSITORY: terraform_funding_read_write           # set this to your Amazon ECR repository name
+  ECS_SERVICE: terraform_ecs_funding_rw                 # set this to your Amazon ECS service name
+  ECS_CLUSTER: terraform-cluster                 # set this to your Amazon ECS cluster name
+  ECS_TASK_DEFINITION: .aws/funding_rw_td_TR.json        # set this to the path to your Amazon ECS task definition
                                                # file, e.g. .aws/task-definition.json
-  CONTAINER_NAME: funding-ct           # set this to the name of the container in the
+  CONTAINER_NAME: funding_rw_ct           # set this to the name of the container in the
                                                # containerDefinitions section of your task definition
 
 permissions:
@@ -84,7 +80,7 @@ jobs:
         # push it to ECR so that it can
         # be deployed to ECS.
         echo " ---- $ECR_REGISTRY --- $ECR_REPOSITORY --- "
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./funding
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./funding_rw
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
