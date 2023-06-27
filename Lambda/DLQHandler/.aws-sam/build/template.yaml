@@ -1,0 +1,41 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: DLQHandler
+Transform:
+- AWS::Serverless-2016-10-31
+Resources:
+  DLQHandlerLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/dlq-handler-lambda.handler
+      Runtime: nodejs14.x
+      Events:
+        paymentDLQ:
+          Type: SQS
+          Properties:
+            Queue: arn:aws:sqs:ap-northeast-2:156557625960:payment_queue_dlq
+        etcDLQ:
+          Type: SQS
+          Properties:
+            Queue: arn:aws:sqs:ap-northeast-2:156557625960:etc_dlq
+        sendEmailDLQ:
+          Type: SQS
+          Properties:
+            Queue: arn:aws:sqs:ap-northeast-2:156557625960:sendEmailDLQ
+      Architectures:
+      - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: A Lambda function that returns a static string.
+      Policies:
+      - AWSLambdaBasicExecutionRole
+      - Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Action:
+          - sqs:SendMessage
+          Resource:
+          - arn:aws:sqs:ap-northeast-2:156557625960:sendEmail
+          - arn:aws:sqs:ap-northeast-2:156557625960:payment_queue
+      CodeUri: DLQHandlerLambdaFunction
+    Metadata:
+      SamResourceId: DLQHandlerLambdaFunction
