@@ -30,7 +30,9 @@
 * 시스템 메트릭 또는 저장된 데이터에 대한 하나 이상의 시각화된 모니터링 시스템이 구축되어야합니다.
 
 ## **Architecture**
-![image](https://github.com/cs-devops-bootcamp/devops-04-Final-Team8/assets/52775482/b279a753-a595-4407-9ecd-b5e8dd053456)
+![image](https://github.com/cs-devops-bootcamp/devops-04-Final-Team8/assets/52775482/514831e5-b23c-43dd-9ae2-813c94be037b)
+
+
 
 
 ## **기능 설명**
