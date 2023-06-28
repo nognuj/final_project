@@ -1,0 +1,23 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: An AWS Serverless Specification template describing your function.
+
+Resources:
+  MyLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: broker-lambda.handler
+      Runtime: nodejs14.x
+      Events:
+        MyAPI:
+          Type: Api
+          Properties:
+            Path: /broker
+            Method: Post
+      Policies:
+        - Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Action:
+                - "sns:Publish"
+              Resource: "*"
