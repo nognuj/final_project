@@ -90,6 +90,10 @@ https://catalog.us-east-1.prod.workshops.aws/workshops/8c9036a7-7564-434c-b558-3
 
 [Cluster autoscaling]
 
-## advnace
-1. ECS -> EKS
-2. terraform module
+## 회고
+https://velog.io/@nognuj/CrowdFunding-%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90-%EA%B5%AC%ED%98%84-%ED%9A%8C%EA%B3%A0
+
+## 추가 구현 (~ing)
+https://velog.io/@nognuj/CrowdFunding-%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90-%EA%B5%AC%ED%98%84-%EC%B6%94%EA%B0%80%EA%B5%AC%ED%98%84-nat-gateway-bastion-host
+
+
