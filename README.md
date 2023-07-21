@@ -94,6 +94,6 @@ https://catalog.us-east-1.prod.workshops.aws/workshops/8c9036a7-7564-434c-b558-3
 https://velog.io/@nognuj/CrowdFunding-%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90-%EA%B5%AC%ED%98%84-%ED%9A%8C%EA%B3%A0
 
 ## 추가 구현 (~ing)
-https://velog.io/@nognuj/CrowdFunding-%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90-%EA%B5%AC%ED%98%84-%EC%B6%94%EA%B0%80%EA%B5%AC%ED%98%84-nat-gateway-bastion-host
+nat gateway, bastion host : https://velog.io/@nognuj/CrowdFunding-%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90-%EA%B5%AC%ED%98%84-%EC%B6%94%EA%B0%80%EA%B5%AC%ED%98%84-nat-gateway-bastion-host
 
 
